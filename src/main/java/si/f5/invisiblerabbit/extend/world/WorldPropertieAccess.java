@@ -8,32 +8,32 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.WorldInitEvent;
+import org.bukkit.event.world.WorldLoadEvent;
 
 public class WorldPropertieAccess implements Listener{
 
 	private boolean unloadSpawnChunk;
 	private String[] disableUnloadSpawnChunks;
 
-	private boolean isAmbientSpawnLimit;
-	private int ambientSpawnLimit;
-	private Map<String, Integer> perWorldAmbientSpawnLimit;
+	private boolean isChunksPerAmbientSpawnLimit;
+	private int chunksPerAmbientSpawnLimit;
+	private Map<String, Integer> perWorldChunksPerAmbientSpawnLimit;
 
-	private boolean isAnimalSpawnLimit;
-	private int animalSpawnLimit;
-	private Map<String, Integer> perWorldAnimalSpawnLimit;
+	private boolean isChunksPerAnimalSpawnLimit;
+	private int chunksPerAnimalSpawnLimit;
+	private Map<String, Integer> perWorldChunksPerAnimalSpawnLimit;
 
-	private boolean isMonsterSpawnLimit;
-	private int monsterSpawnLimit;
-	private Map<String, Integer> perWorldMonsterSpawnLimit;
+	private boolean isChunksPerMonsterSpawnLimit;
+	private int chunksPerMonsterSpawnLimit;
+	private Map<String, Integer> perWorldChunksPerMonsterSpawnLimit;
 
-	private boolean isWaterAmbientSpawnLimit;
-	private int waterAmbientSpawnLimit;
-	private Map<String, Integer> perWorldWaterAmbientSpawnLimit;
+	private boolean isChunksPerWaterAmbientSpawnLimit;
+	private int chunksPerWaterAmbientSpawnLimit;
+	private Map<String, Integer> perWorldChunksPerWaterAmbientSpawnLimit;
 
-	private boolean isWaterAnimalSpawnLimit;
-	private int waterAnimalSpawnLimit;
-	private Map<String, Integer> perWorldWaterAnimalSpawnLimit;
+	private boolean isChunksPerWaterAnimalSpawnLimit;
+	private int chunksPerWaterAnimalSpawnLimit;
+	private Map<String, Integer> perWorldChunksPerWaterAnimalSpawnLimit;
 
 	private boolean isTicksPerAmbientSpawn;
 	private int ticksPerAmbientSpawn;
@@ -60,25 +60,25 @@ public class WorldPropertieAccess implements Listener{
 		unloadSpawnChunk = config.getBoolean("world.unload-spawn-chunk",false);
 		disableUnloadSpawnChunks = config.getStringList("world.disable-unload-spawn-chunk").toArray(new String[0]);
 
-		isAmbientSpawnLimit = config.getBoolean("world.ambient-spawn-limit.enable",false);
-		ambientSpawnLimit = config.getInt("world.ambient-spawn-limit.global",400);
-		perWorldAmbientSpawnLimit = getSection(config,"world.ambient-spawn-limit.per-world",ambientSpawnLimit);
+		isChunksPerAmbientSpawnLimit = config.getBoolean("world.chunks-per-ambient-spawn-limit.enable",false);
+		chunksPerAmbientSpawnLimit = config.getInt("world.chunks-per-ambient-spawn-limit.global",8);
+		perWorldChunksPerAmbientSpawnLimit = getSection(config,"world.chunks-per-ambient-spawn-limit.per-world",chunksPerAmbientSpawnLimit);
 
-		isAnimalSpawnLimit = config.getBoolean("world.animal-spawn-limit.enable",false);
-		animalSpawnLimit = config.getInt("world.animal-spawn-limit.global",800);
-		perWorldAnimalSpawnLimit = getSection(config,"world.animal-spawn-limit.per-world",animalSpawnLimit);
+		isChunksPerAnimalSpawnLimit = config.getBoolean("world.chunks-per-animal-spawn-limit.enable",false);
+		chunksPerAnimalSpawnLimit = config.getInt("world.chunks-per-animal-spawn-limit.global",64);
+		perWorldChunksPerAnimalSpawnLimit = getSection(config,"world.chunks-per-animal-spawn-limit.per-world",chunksPerAnimalSpawnLimit);
 
-		isMonsterSpawnLimit = config.getBoolean("world.monster-spawn-limit.enable",false);
-		monsterSpawnLimit = config.getInt("world.monster-spawn-limit.global",800);
-		perWorldMonsterSpawnLimit = getSection(config,"world.monster-spawn-limit.per-world",monsterSpawnLimit);
+		isChunksPerMonsterSpawnLimit = config.getBoolean("world.chunks-per-monster-spawn-limit.enable",false);
+		chunksPerMonsterSpawnLimit = config.getInt("world.chunks-per-monster-spawn-limit.global",64);
+		perWorldChunksPerMonsterSpawnLimit = getSection(config,"world.chunks-per-monster-spawn-limit.per-world",chunksPerMonsterSpawnLimit);
 
-		isWaterAmbientSpawnLimit = config.getBoolean("world.water-ambient-spawn-limit.enable",false);
-		waterAmbientSpawnLimit = config.getInt("world.water-ambient-spawn-limit.global",400);
-		perWorldWaterAmbientSpawnLimit = getSection(config,"world.water-ambient-spawn-limit.per-world",waterAmbientSpawnLimit);
+		isChunksPerWaterAmbientSpawnLimit = config.getBoolean("world.chunks-per-water-ambient-spawn-limit.enable",false);
+		chunksPerWaterAmbientSpawnLimit = config.getInt("world.chunks-per-water-ambient-spawn-limit.global",8);
+		perWorldChunksPerWaterAmbientSpawnLimit = getSection(config,"world.chunks-per-water-ambient-spawn-limit.per-world",chunksPerWaterAmbientSpawnLimit);
 
-		isWaterAnimalSpawnLimit = config.getBoolean("world.water-animal-spawn-limit.enable",false);
-		waterAnimalSpawnLimit = config.getInt("world.water-animal-spawn-limit.global",400);
-		perWorldWaterAnimalSpawnLimit = getSection(config,"world.water-animal-spawn-limit.per-world",waterAnimalSpawnLimit);
+		isChunksPerWaterAnimalSpawnLimit = config.getBoolean("world.chunks-per-water-animal-spawn-limit.enable",false);
+		chunksPerWaterAnimalSpawnLimit = config.getInt("world.chunks-per-water-animal-spawn-limit.global",8);
+		perWorldChunksPerWaterAnimalSpawnLimit = getSection(config,"world.chunks-per-water-animal-spawn-limit.per-world",chunksPerWaterAnimalSpawnLimit);
 
 		isTicksPerAmbientSpawn = config.getBoolean("world.ticks-per-ambient-spawn.enable",false);
 		ticksPerAmbientSpawn = config.getInt("world.ticks-per-ambient-spawn.global",1);
@@ -121,7 +121,7 @@ public class WorldPropertieAccess implements Listener{
 	}
 
 	@EventHandler
-	public void initWorld(WorldInitEvent e) {
+	public void loadWorld(WorldLoadEvent e) {
 		System.out.println("==================BSP==================");
 		System.out.println("World is initialised");
 		World world = e.getWorld();
@@ -139,11 +139,11 @@ public class WorldPropertieAccess implements Listener{
 		for(String i:disableUnloadSpawnChunks)tmp = name.equals(i);
 		world.setKeepSpawnInMemory(unloadSpawnChunk ? tmp : false);
 
-		world.setAmbientSpawnLimit(isAmbientSpawnLimit ? perWorldAmbientSpawnLimit.getOrDefault(name, ambientSpawnLimit) : -1);
-		world.setAnimalSpawnLimit(isAnimalSpawnLimit ? perWorldAnimalSpawnLimit.getOrDefault(name, animalSpawnLimit) : -1);
-		world.setMonsterSpawnLimit(isMonsterSpawnLimit ? perWorldMonsterSpawnLimit.getOrDefault(name, monsterSpawnLimit) : -1);
-		world.setWaterAmbientSpawnLimit(isWaterAmbientSpawnLimit ? perWorldWaterAmbientSpawnLimit.getOrDefault(name, waterAmbientSpawnLimit) : -1);
-		world.setWaterAnimalSpawnLimit(isWaterAnimalSpawnLimit ? perWorldWaterAnimalSpawnLimit.getOrDefault(name, waterAnimalSpawnLimit) : -1);
+		world.setAmbientSpawnLimit(isChunksPerAmbientSpawnLimit ? perWorldChunksPerAmbientSpawnLimit.getOrDefault(name, chunksPerAmbientSpawnLimit) : -1);
+		world.setAnimalSpawnLimit(isChunksPerAnimalSpawnLimit ? perWorldChunksPerAnimalSpawnLimit.getOrDefault(name, chunksPerAnimalSpawnLimit) : -1);
+		world.setMonsterSpawnLimit(isChunksPerMonsterSpawnLimit ? perWorldChunksPerMonsterSpawnLimit.getOrDefault(name, chunksPerMonsterSpawnLimit) : -1);
+		world.setWaterAmbientSpawnLimit(isChunksPerWaterAmbientSpawnLimit ? perWorldChunksPerWaterAmbientSpawnLimit.getOrDefault(name, chunksPerWaterAmbientSpawnLimit) : -1);
+		world.setWaterAnimalSpawnLimit(isChunksPerWaterAnimalSpawnLimit ? perWorldChunksPerWaterAnimalSpawnLimit.getOrDefault(name, chunksPerWaterAnimalSpawnLimit) : -1);
 
 		world.setTicksPerAmbientSpawns(isTicksPerAmbientSpawn ? perWorldTicksPerAmbientSpawn.getOrDefault(name, ticksPerAmbientSpawn) : 1);
 		world.setTicksPerAnimalSpawns(isTicksPerAnimalSpawn ? perWorldTicksPerAnimalSpawn.getOrDefault(name, ticksPerAnimalSpawn) : 400);
