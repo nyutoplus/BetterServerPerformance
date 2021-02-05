@@ -1,0 +1,65 @@
+world:
+  unload-spawn-chunk: true
+  disable-unload-spawn-chunk:
+    - 'exampleWorld1'
+    - 'exampleWorld2'
+  ambient-spawn-limit:
+    enable: true
+    global: -1
+    per-world:
+      exampleworld1: 400
+      exampleworld2: 400
+  animal-spawn-limit:
+    enable: true
+    global: -1
+    per-world:
+      exampleworld1: 400
+      exampleworld2: 400
+  monster-spawn-limit:
+    enable: true
+    global: -1
+    per-world:
+      exampleworld1: 400
+      exampleworld2: 400
+  water-ambient-spawn-limit:
+    enable: true
+    global: -1
+    per-world:
+      exampleworld1: 400
+      exampleworld2: 400
+  water-animal-spawn-limit:
+    enable: true
+    global: -1
+    per-world:
+      exampleworld1: 400
+      exampleworld2: 400
+  ticks-per-ambient-spawn:
+    enable: true
+    global: 1
+    per-world:
+      exampleworld1: 1
+      exampleworld2: 1
+  ticks-per-animal-spawn:
+    enable: true
+    global: 400
+    per-world:
+      exampleworld1: 400
+      exampleworld2: 400
+  ticks-per-monster-spawn:
+    enable: true
+    global: 1
+    per-world:
+      exampleworld1: 1
+      exampleworld2: 1
+  ticks-per-water-ambient-spawn:
+    enable: true
+    global: 1
+    per-world:
+      exampleworld1: 1
+      exampleworld2: 1
+  ticks-per-water-animal-spawn:
+    enable: true
+    global: 1
+    per-world:
+      exampleworld1: 1
+      exampleworld2: 1
