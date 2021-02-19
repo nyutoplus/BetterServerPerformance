@@ -12,7 +12,7 @@ public interface FunctionHelper {
 
 	public void reload(Server server);
 
-	public void setConfig(FileConfiguration fileConfig);
+	public void setConfig(FileConfiguration fileConfig,FileConfiguration perWorldConfig);
 
 	public Listener[] getListener();
 

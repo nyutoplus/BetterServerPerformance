@@ -16,7 +16,7 @@ public class FunctionHelperAdapter implements FunctionHelper {
 	public void reload(Server server) {}
 
 	@Override
-	public void setConfig(FileConfiguration fileConfig) {}
+	public void setConfig(FileConfiguration fileConfig,FileConfiguration perWorldConfig) {}
 
 	@Override
 	public Listener[] getListener() {

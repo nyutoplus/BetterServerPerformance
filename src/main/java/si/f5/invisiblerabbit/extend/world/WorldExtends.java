@@ -22,8 +22,8 @@ public class WorldExtends extends FunctionHelperAdapter {
 
 
 	@Override
-	public void setConfig(FileConfiguration fileConfig) {
-		wpa.setConfig(fileConfig);
+	public void setConfig(FileConfiguration fileConfig,FileConfiguration perWorldConfig) {
+		wpa.setConfig(fileConfig,perWorldConfig);
 
 	}
 
